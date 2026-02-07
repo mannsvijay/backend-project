@@ -12,3 +12,5 @@ const storage = multer.diskStorage({
 export const upload = multer({ 
     storage,
  })
+
+ // we just created  this multer middleware to upload file temp on our server before uploading it to cloudinary
