@@ -6,9 +6,10 @@ import dotenv from "dotenv"; // we prefer this
 // import { DB_NAME } from "./constants";
 // import express from "express";
 import connectDB from "./db/index.js";
+import { app } from "./app.js";
 
 dotenv.config({
-    path: './.env'
+    path: './env'
 })
 
 // sec approach includes writing a db connect there and then we just put it into the index file from the index.js file in the db folder so we just need to import it
@@ -23,10 +24,6 @@ connectDB()
 .catch((err) => {
   console.log("MONGO db connection failed !!! " , err);
 })
-
-
-
-
 
 
 
