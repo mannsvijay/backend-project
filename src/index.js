@@ -29,7 +29,7 @@ connectDB()
 
 
 
-
+console.log("URI found:", process.env.MONGODB_URI ? "Yes" : "No");
 
 // FIRST APPROACH to connect to database 
 // ;(async () => {
