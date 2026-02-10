@@ -58,15 +58,24 @@ const registerUser = asyncHandler(async (req,res) => {
     }
 
     // we create a object to create entry in db
-     user.create({
+     const user = user.create({
         fullName,
         avatar : avatar.url,
         coverImage : coverImage?.url || "",
         email,
         password,
         username : username.toLowerCase()
-
      })
+
+      //checks if user id created or not
+      await user.findById(user._id)
+        if(!user){
+            throw new ApiError(500,"user registration failed")
+        }
+
+
+
+
 })
 
 
