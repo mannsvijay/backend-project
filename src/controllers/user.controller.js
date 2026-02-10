@@ -57,7 +57,16 @@ const registerUser = asyncHandler(async (req,res) => {
         throw new ApiError(400,"avatar file is required")
     }
 
-    
+    // we create a object to create entry in db
+     user.create({
+        fullName,
+        avatar : avatar.url,
+        coverImage : coverImage?.url || "",
+        email,
+        password,
+        username : username.toLowerCase()
+
+     })
 })
 
 
