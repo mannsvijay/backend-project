@@ -2,6 +2,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { user } from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { ApiResponse } from "../utils/apiResponse.js";
+
 
 //method to register user
 const registerUser = asyncHandler(async (req,res) => {
@@ -68,13 +70,15 @@ const registerUser = asyncHandler(async (req,res) => {
      })
 
       //checks if user id created or not
-      await user.findById(user._id)
-        if(!user){
+      const createdUser = await user.findById(user._id).select("-password -refreshToken")
+        if(!createdUser){ // if user is not created then we throw error as its server error
             throw new ApiError(500,"user registration failed")
         }
 
-
-
+        // if user is created successfully then we return response to frontend
+        return res.status(201).json(
+            new ApiResponse(201,createdUser,"user registered successfully")
+        )
 
 })
 
