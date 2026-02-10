@@ -70,7 +70,7 @@ userSchema.methods.isPasswordCorrect = async function (passwprd) {
 }
 
 
-
+// to generate access token
 userSchema.methods.generateAcessToken = function(){
     return jwt.sign(
         {
@@ -84,7 +84,8 @@ userSchema.methods.generateAcessToken = function(){
         }
     )
 }
- 
+
+// to generate refresh token
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {

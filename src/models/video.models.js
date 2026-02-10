@@ -48,6 +48,10 @@ const videoSchema = new mongoose.Schema(
      }
 ,{timestamps : true})
 
+
+// to add pagination feature to video model , pagination is required for fetching videos in chunks instead of fetching all videos at once which can cause performance issues and also to implement infinite scroll feature in frontend
 videoSchema.plugin(mongooseAggregatePaginate)
 
+
+// to create video model
 export const video = mongoose.model("video",videoSchema)
