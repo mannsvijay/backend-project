@@ -1,1 +1,1 @@
-export const DB_NAME = "videotube"
+export const DB_NAME = "videotube" // we export the DB_NAME constant which is the name of the database we want to connect to and we use it in the index.js file to connect to the database and also in the video model to create the video collection in the database

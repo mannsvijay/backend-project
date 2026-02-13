@@ -5,8 +5,8 @@ import dotenv from "dotenv"; // we prefer this
 // import mongoose from "mongoose";
 // import { DB_NAME } from "./constants";
 // import express from "express";
-import connectDB from "./db/index.js";
-import { app } from "./app.js";
+import connectDB from "./db/index.js"; // we import the connectDB function from the db folder which is responsible for connecting to the database and then we call it in the index.js file to connect to the database before starting the server
+import { app } from "./app.js"; // we import the app from the app.js file which is the main file for our express application and it contains all the routes and middlewares
 
 dotenv.config({
     path: './env'

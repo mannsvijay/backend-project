@@ -1,17 +1,19 @@
-import express from "express"
-import cors from "cors"
-import cookieParser from "cookie-parser"
+import express from "express" // to create an express application and to use its features like routing and middlewares
+import cors from "cors" // to enable cross-origin resource sharing (CORS) which allows our frontend application to make requests to our backend API from a different origin
+import cookieParser from "cookie-parser" // to parse cookies from the incoming requests and to make them available in the req.cookies object which is useful for handling authentication and authorization using cookies
 
 const app = express()
 
 
+// middlewares
 app.use(cors({
     origin : process.env.CORS_ORIGIN,
     credentials : true , 
 }))
 
-app.use(express.json({limit : "16kb"}))
-app.use(express.urlencoded({extended : true}))
+
+app.use(express.json({limit : "16kb"})) // to parse the incoming request body as JSON and to make it available in the req.body object which is useful for handling API requests that send data in JSON format and we also set a limit of 16kb to prevent large payloads from overwhelming our server
+app.use(express.urlencoded({extended : true})) // to parse the incoming request body as URL-encoded data and to make it available in the req.body object which is useful for handling API requests that send data in URL-encoded format (like form submissions) and we set extended to true to allow for rich objects and arrays to be encoded into the URL-encoded format
 app.use(express.static("public"))
 app.use(cookieParser())
 

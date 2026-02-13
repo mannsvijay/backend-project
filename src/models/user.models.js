@@ -1,6 +1,6 @@
 import mongoose ,{Schema} from "mongoose";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // to generate access token and refresh token for user authentication and authorization
+import bcrypt from "bcrypt"; // to encrypt the password
 
 
 const userSchema = new mongoose.Schema(
