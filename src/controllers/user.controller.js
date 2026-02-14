@@ -5,6 +5,8 @@ import { user as User } from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 
+
+// Register user
 const registerUser = asyncHandler(async (req, res) => {
     // 1. Get user details from frontend
     const { fullName, email, username, password } = req.body;
@@ -67,4 +69,29 @@ const registerUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser };
+
+
+//login user
+const loginUser = asyncHandler(async (req,res) =>{
+        // get data from request body
+        // username or email can be used to login
+        // find user by username or email
+        // password check
+        // if password is correct, generate access token and refresh token
+        // return access token and refresh token in response
+       // send cookie
+
+       const {email,username,password} = req.body;
+        
+       if(!username || !email){
+            throw new ApiError(400,"Username or password are required");
+        }
+
+})
+
+
+
+export { 
+    registerUser,
+    loginUser
+ };
