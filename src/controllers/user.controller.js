@@ -1,10 +1,26 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
-// RENAMED IMPORT: using 'as User' prevents name conflicts with local variables
-import { user as User } from "../models/user.models.js"; 
+import { user, user } from "../models/user.models.js"; 
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 
+
+const generateAccessAndRefreshTokens = async (userId) => {
+    try {
+        const user = await user.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+        await user.save({validateBeforeSave : false})
+        return { accessToken, refreshToken }
+
+
+    } catch (error) {
+        throw new ApiError(500, "something went wrong while generating tokens");
+    }
+
+}
 
 // Register user
 const registerUser = asyncHandler(async (req, res) => {
@@ -86,6 +102,25 @@ const loginUser = asyncHandler(async (req,res) =>{
        if(!username || !email){
             throw new ApiError(400,"Username or password are required");
         }
+        
+
+        const user = await user.findOne({
+            $or: [ {username},{email}]
+        })
+
+        if(!user) {
+            throw new ApiError(404,"user not found")
+        }
+
+        const isPasswordValid = await user.isPasswordCorrect(password);
+
+        if (!isPasswordValid) {
+            throw new ApiError(401, "Invalid user credentials");
+        }
+
+        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
+
+         const loggedIn = await user.findById(user._id).select("-password -refreshToken")
 
 })
 
