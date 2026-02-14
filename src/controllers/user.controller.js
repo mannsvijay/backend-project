@@ -143,7 +143,10 @@ const loginUser = asyncHandler(async (req,res) =>{
 })
 
 
-
+//Logout user
+const logourUser = asyncHandler(async(req,res) =>{
+    // Clear the access token and refresh token cookies
+}) 
 
 
 
