@@ -57,12 +57,11 @@ const userSchema = new mongoose.Schema(
 ,{timestamps : true})
 
 // to encrypt the  password
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next(); // MUST call next() here
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
 
-    this.password = await bcrypt.hash(this.password, 10)
-    // next()
-})
+    this.password = await bcrypt.hash(this.password, 10);
+});
 
 // to check if the pass is correct or not
 userSchema.methods.isPasswordCorrect = async function (password) {

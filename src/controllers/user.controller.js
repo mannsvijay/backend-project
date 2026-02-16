@@ -7,17 +7,18 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
-        const user = await user.findById(userId)
-        const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefreshToken()
+        const user = await User.findById(userId);
+        if (!user) throw new ApiError(404, "User not found for token generation");
 
-        user.refreshToken = refreshToken
-        await user.save({validateBeforeSave : false})
-        return { accessToken, refreshToken }
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
 
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
+        return { accessToken, refreshToken };
 
     } catch (error) {
-        throw new ApiError(500, "something went wrong while generating tokens");
+        throw new ApiError(500, error?.message || "something went wrong while generating tokens");
     }
 
 }
@@ -120,7 +121,7 @@ const loginUser = asyncHandler(async (req,res) =>{
 
         const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
 
-        const loggedInUser = await user.findById(user._id).select("-password -refreshToken")
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
         const options = {
             httpOnly : true,
