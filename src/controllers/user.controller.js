@@ -3,6 +3,7 @@ import { ApiError } from "../utils/apiError.js";
 import { user as User} from "../models/user.models.js"; 
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResponse.js";
+import jwt from "jsonwebtoken";
 
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -170,6 +171,18 @@ const logoutUser = asyncHandler(async(req,res) =>{
 })  
 
 
+// creating end point for refresh access token
+const refreshAccessToken = asyncHandler(async(req,res) => {
+
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+    if(!incomingRefreshToken){
+        throw new ApiError(401,"unauthorised req")
+    }
+
+
+
+})
 
 export { 
     registerUser,
