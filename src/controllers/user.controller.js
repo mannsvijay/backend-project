@@ -249,7 +249,10 @@ const getCurrentUser = asyncHandler(async(req,res) => {
 })
 
 
-//
+//updating user details
+const updateAccountDetails = asyncHandler(async(req,res)=>{
+    
+})
 
 
 export { 
