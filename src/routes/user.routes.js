@@ -25,19 +25,17 @@ router.route("/register").post(
 router.route("/login").post(loginUser)
 
 
-
-//secured route for logout of user
-router.route("/logout").post(verifyJWT, logoutUser)
-router.route("/refresh-token").post(refreshAccessToken)
-router.route("/change-password").post(verifyJWT, changeCurrentPassword)
-router.route("/current-user").get(verifyJWT, getCurrentUser)
-router.route("/update-account").patch(verifyJWT,updateAccountDetails)
-
+// secured routes 
+router.route("/logout").post(verifyJWT, logoutUser) //secured route for logout of user
+router.route("/refresh-token").post(refreshAccessToken) // it is used to refresh the access token of user when it expires and it uses verifyJWT middleware to verify the token of user
+router.route("/change-password").post(verifyJWT, changeCurrentPassword) // it is used to change the password of user and it uses verifyJWT middleware to verify the token of user
+router.route("/current-user").get(verifyJWT, getCurrentUser) // it is used to get the current user details and it uses verifyJWT middleware to verify the token of user
+router.route("/update-account").patch(verifyJWT,updateAccountDetails) // it is used to update the account details of user and it uses verifyJWT middleware to verify the token of user
 router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar) // it is used to update the avatar of user and it uses multer middleware to upload the image and it uses verifyJWT middleware to verify the token of user
-router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
-router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
+router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage) // it is used to update the cover image of user and it uses multer middleware to upload the image and it uses verifyJWT middleware to verify the token of user
+router.route("/c/:username").get(verifyJWT, getUserChannelProfile) // it is used to get the channel profile of user and it uses verifyJWT middleware to verify the token of user
+router.route("/watch-history").get(verifyJWT, getWatchHistory) // it is used to get the watch history of user and it uses verifyJWT middleware to verify the token of user
 
-router.route("/watch-history").get(verifyJWT, getWatchHistory)
 
 
 export default router
