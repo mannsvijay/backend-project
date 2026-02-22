@@ -286,6 +286,10 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
         throw new ApiError(400,"Avatar file is required")
     }
 
+    // delete the previous avatar from cloudinary
+    if(req.user?.avatar){
+        await uploadOnCloudinary.delete(req.user.avatar)
+    }
     // now upload the avatar on cloudinary
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
@@ -303,7 +307,7 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
         {new : true}
 
     ).select("-password")
-    
+
     return res
     .status(200)
     .json(new ApiResponse(200 , user, "Avatar updated successfully"))
