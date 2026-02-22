@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser ,registerUser , logoutUser , refreshAccessToken } from "../controllers/user.controller.js";
+import { loginUser ,registerUser , logoutUser , refreshAccessToken , changeCurrentPassword, getCurrentUser, updateAccountDetails , updateUserAvatar , updateUserCoverImage , getUserChannelProfile ,getWatchHistory} from "../controllers/user.controller.js";
 import {upload} from "../middlewares/multer.middlewares.js"
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
@@ -29,6 +29,15 @@ router.route("/login").post(loginUser)
 //secured route for logout of user
 router.route("/logout").post(verifyJWT, logoutUser)
 router.route("/refresh-token").post(refreshAccessToken)
+router.route("/change-password").post(verifyJWT, changeCurrentPassword)
+router.route("/current-user").get(verifyJWT, getCurrentUser)
+router.route("/update-account").patch(verifyJWT,updateAccountDetails)
+
+router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar) // it is used to update the avatar of user and it uses multer middleware to upload the image and it uses verifyJWT middleware to verify the token of user
+router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
+router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
+
+router.route("/watch-history").get(verifyJWT, getWatchHistory)
 
 
 export default router
