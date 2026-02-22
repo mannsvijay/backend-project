@@ -355,8 +355,72 @@ const getUserChannelProfile = asyncHandler(async(req,res) =>{
 
     //aggregation pipeline to get the user channel profile details along with the total number of videos, playlists, subscribers and subscriptions count
     const channel = await User.aggregate([
+        { // pipeline to match the user by username
+            $match : {
+                username : username?.toLowerCase()
+            }
+        },
+        { // pipeline to find subscribers count for the channel
+            $lookup : {
+                    from : "subscriptions",
+                    localField : "_id",
+                    foreignField : "channel",
+                    as : "subscribers"
+            }
+        },
+        { // pipleline to know number of channels the user is subscribed to
+            $lookup :{
+                from : "subscriptions",
+                localField : "_id",
+                foreignField : "subscriber",
+                as : "subscribedTo"
+            }
+        }, 
+        { // pipeline to add fields for subscribers count, subscribedTo count and isSubscribed (to know whether the logged in user is subscribed to the channel or not)
+            $addFields : {
+                subscribersCount : {
+                    $size :  "$subscribers"
+                },
+                channelSubscribedToCount : {
+                    $size : "$subscribedTo"
+                },
+                isSubscribed : {
+                    $cond: {
+                        if: {$in : [req.user?._id, "$subscribers.subscriber"]},
+                        then : true,
+                        else : false
+                    }
+                }
+            }
+        }, 
+        { // project only required fields
+            $project : {  
+                fullName : 1 ,
+                username : 1,
+                subscribersCount : 1,
+                channelSubscribedToCount : 1,
+                isSubscribed : 1,
+                avatar : 1,
+                email : 1,
+                coverImage : 1
 
+                
+            } 
+        }
     ])
+
+
+
+    // console.log("channel details : ", channel);
+
+    if(!channel || channel.length === 0){
+        throw new ApiError(404,"Channel not found with the provided username")
+    }
+    
+    return res
+    .status(200)
+    .json(new ApiResponse(200,channel[0],"user channel fetched successfully"))
+
 
 })
 
