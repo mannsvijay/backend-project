@@ -313,6 +313,7 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200 , user, "Avatar updated successfully"))
 }) 
 
+// updating cover image
 const updateUserCoverImage = asyncHandler(async(req,res)=>{
     
     const coverImageLocalPath = req.file?.path
@@ -344,7 +345,20 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200 , user, "Cover image updated successfully"))
 }) 
 
+// get user channel profile 
+const getUserChannelProfile = asyncHandler(async(req,res) =>{
+    const {username} = req.params
 
+    if(!username){
+        throw new ApiError(400,"username is missing")
+    }
+
+    //aggregation pipeline to get the user channel profile details along with the total number of videos, playlists, subscribers and subscriptions count
+    const channel = await User.aggregate([
+
+    ])
+
+})
 
 export { 
     registerUser,
@@ -355,5 +369,6 @@ export {
     getCurrentUser,
     updateAccountDetails,
     updateUserAvatar,
-    updateUserCoverImage
+    updateUserCoverImage,
+    getUserChannelProfile
  };
