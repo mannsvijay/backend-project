@@ -424,6 +424,61 @@ const getUserChannelProfile = asyncHandler(async(req,res) =>{
 
 })
 
+// get watch history of user
+const getWatchHistory = asyncHandler(async(req,res) =>{
+    const user = await User.aggregate([
+        {// match the user by id
+            $match : {
+                _id : mongoose.Types.ObjectId(req.user?._id)
+
+            }
+
+        },
+        {// lookup to get the watch history details from videos collection
+            $lookup : {
+                from : "videos",
+                localField : "watchHistory",
+                foreignField : "_id",
+                as : "watchHistory",
+                pipeline : [ // pipeline to get the owner details of the video from users collection
+                    {
+                        $lookup : {
+                            from : "users",
+                            localField : "owner",
+                            foreignField : "_id",
+                            as : "owner",
+                            pipeline : [ // to project only required fields of the video owner
+                                {
+                                    $project : {
+                                        fullName : 1,
+                                        username : 1,
+                                        avatar : 1
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        $addFields : {
+                            owner : {
+                                $first : "$owner"
+                            }
+                        }
+                    }
+                ] 
+            }
+        }
+    ])
+
+    if(!user || user.length === 0){
+        throw new ApiError(404,"User not found")
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,user[0].watchHistory,"User watch history fetched successfully"))
+})
+
 export { 
     registerUser,
     loginUser,
@@ -434,5 +489,6 @@ export {
     updateAccountDetails,
     updateUserAvatar,
     updateUserCoverImage,
-    getUserChannelProfile
+    getUserChannelProfile,
+    getWatchHistory
  };
