@@ -6,7 +6,7 @@ A production-ready backend system for a YouTube-like video hosting platform buil
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
+- [Overview](#Overview)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Project Structure](#project-structure)
@@ -14,11 +14,11 @@ A production-ready backend system for a YouTube-like video hosting platform buil
 - [API Features](#api-features)
 - [What You'll Learn](#what-youll-learn)
 
-## 🎯 Overview
+## Overview
 
 This is a comprehensive backend project demonstrating enterprise-level practices for building scalable APIs. It implements a complete video hosting platform with user authentication, video management, social interaction features, and more.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Runtime:** Node.js
 - **Framework:** Express.js
@@ -28,7 +28,7 @@ This is a comprehensive backend project demonstrating enterprise-level practices
 - **File Upload:** Cloudinary Integration
 - **Middleware:** Custom auth & multer file handling
 
-## ✨ Features
+##  Features
 
 ### User Management
 - User registration and login
@@ -55,7 +55,7 @@ This is a comprehensive backend project demonstrating enterprise-level practices
 - Health check endpoints
 - API monitoring capabilities
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -68,7 +68,7 @@ src/
 └── app.js             # Express app configuration
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -88,7 +88,7 @@ npm install
 npm start
 ```
 
-## 🔌 API Features
+##  API Features
 
 The API includes comprehensive endpoints for:
 - User authentication
@@ -100,7 +100,7 @@ The API includes comprehensive endpoints for:
 - Social tweets
 - Dashboard metrics
 
-## 📚 What You'll Learn
+##  What You'll Learn
 
 From this project, you'll gain practical knowledge of:
 - Building RESTful APIs with Express.js
