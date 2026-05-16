@@ -1,4 +1,4 @@
-# Video Hosting Backend API
+# SocialTube - Video Hosting Backend API
 
 A production-ready backend system for a YouTube-like video hosting platform built with modern JavaScript technologies and best practices.
 
